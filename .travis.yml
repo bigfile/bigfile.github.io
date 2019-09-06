@@ -16,7 +16,8 @@ before_script:
 # script - run the build script
 script:
     - hugo 2> /dev/null
-    - echo "$CNAME_URL" > public/CNAME
+    - echo $CNAME_URL
+    - echo "bigfile.site" > public/CNAME
 
 deploy:
   provider: pages
