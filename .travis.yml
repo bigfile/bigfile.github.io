@@ -15,8 +15,7 @@ before_script:
 
 script:
     - hugo 2> /dev/null
-    - echo $CNAME_URL
-    - cp CNAME public/CNAME
+    - echo $CNAME_URL > public/CNAME
 
 deploy:
   provider: pages
@@ -28,4 +27,4 @@ deploy:
   target_branch: master
   repo: bigfile/bigfile.github.io
   on:
-    branch: master  #
+    branch: doc  #
