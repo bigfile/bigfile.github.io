@@ -8,15 +8,14 @@ gp:
     - 1.12.x
 
 install:
-    - go get github.com/gohugoio/hugo    # consume time 70.85s
+    - go get -u -v github.com/gohugoio/hugo    # consume time 70.85s
 
 before_script:
     - rm -rf public 2> /dev/null
 
-# script - run the build script
 script:
     - hugo 2> /dev/null
-    - cp CNAME ./public/CNAME
+    - echo "$CNAME_URL" ./public/CNAME
 
 deploy:
   provider: pages
