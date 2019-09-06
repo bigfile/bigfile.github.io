@@ -15,7 +15,7 @@ before_script:
 
 script:
     - hugo 2> /dev/null
-    - echo "$CNAME_URL" ./public/CNAME
+    - echo "$CNAME_URL" > ./public/CNAME
 
 deploy:
   provider: pages
