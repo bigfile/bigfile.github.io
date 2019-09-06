@@ -1,0 +1,31 @@
+language: go
+
+branches:
+  only:
+    - doc
+
+gp:
+    - 1.12.x
+
+install:
+    - go get github.com/gohugoio/hugo    # consume time 70.85s
+
+before_script:
+    - rm -rf public 2> /dev/null
+
+# script - run the build script
+script:
+    - hugo 2> /dev/null
+    - echo "$CNAME_URL" > public/CNAME
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+  verbose: true
+  keep-history: true
+  local-dir: public
+  target_branch: master
+  repo: bigfile/bigfile.github.io
+  on:
+    branch: master  #
