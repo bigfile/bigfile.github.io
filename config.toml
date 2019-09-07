@@ -1,5 +1,5 @@
 # hostname (and path) to the root eg. http://spf13.com/
-baseurl = "https://bigfile.github.io"
+baseurl = "https://bigfile.site"
 
 # Site title
 title = "bigfile"
@@ -58,7 +58,7 @@ disqusShortname = "your_disqus_shortname"
     highlight = "default"
 
     # Google Analytics.
-    googleAnalytics = "Your Google Analytics tracking code"
+    googleAnalytics = "UA-147352498-1"
 
     # Sidebar social links.
     github = "bigfile/bigfile" # Your Github profile ID
