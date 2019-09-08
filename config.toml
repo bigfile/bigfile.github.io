@@ -51,11 +51,11 @@ disqusShortname = "your_disqus_shortname"
 
     # Text for the top menu link, which goes the root URL for the site.
     # Default (if omitted) is "Home".
-    home = "introduction"
+    home = "Home"
 
     # Select a syntax highight.
     # Check the static/css/highlight directory for options.
-    highlight = "default"
+    highlight = "googlecode"
 
     # Google Analytics.
     googleAnalytics = "UA-147352498-1"
