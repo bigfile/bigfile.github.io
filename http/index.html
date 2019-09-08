@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Http  &middot; bigfile</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="Http  &middot; bigfile ">
+<meta property="og:site_name" content="bigfile"/>
+<meta property="og:url" content="https://bigfile.site/http/" />
+<meta property="og:locale" content="en-EN">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2019-09-08T21:30:11&#43;08:00" />
+<meta property="og:article:modified_time" content="2019-09-08T21:30:11&#43;08:00" />
+
+  
+
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "Http",
+    "author": {
+      "@type": "Person",
+      "name": "bigfile"
+    },
+    "datePublished": "2019-09-08",
+    "description": "",
+    "wordCount": 1732
+  }
+</script>
+
+
+
+<link rel="canonical" href="https://bigfile.site/http/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://bigfile.site/touch-icon-144-precomposed.png">
+<link href="https://bigfile.site/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.59.0-DEV" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight/googlecode.css">
+
+  
+  
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-147352498-1', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="https://bigfile.site">
+  bigfile
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  A file transfer system
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+<a class="homelink" href="https://bigfile.site">Home</a>
+
+
+  
+<a href="https://bigfile.site/about">About</a>
+
+<a href="https://bigfile.site/http">Http</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" rel="me" aria-label="Email" href="mailto:bigfilefu@gmail.com">
+  <span class="fa fa-envelope-square"></span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" rel="me" aria-label="Github" href="https://github.com/bigfile/bigfile">
+  <span class="fa fa-github-square"></span></a>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>Http
+</h1>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>The http protocol is the first protocol we implemented. In this way, most languages can access Bigfile at almost no cost. In http protocol, we have the following characteristics:</p>
+
+<ol>
+<li>record every access rquest (default: enable)</li>
+<li>parameter signature verification (default: enable)</li>
+<li>rate limit by ip (default: disable)</li>
+<li>prevent replay attacks (default: enable)</li>
+</ol>
+
+<p>Next, we will make an example of the use of each API.</p>
+
+<h3 id="start-http-server">Start Http Server</h3>
+
+<p>You can start the http service with the Bigfile command line tool, like this:</p>
+
+<pre><code>bigfile http:start --cert-file bigfile.pem --cert-key bigfile.key
+</code></pre>
+
+<p>After the startup is successful, you will see a message. You can view the current http supported routes in the following way.</p>
+
+<pre><code>bigfile http:routes   
+</code></pre>
+
+<p>This command will render a table that contains the method, path and handler.</p>
+
+<pre><code>+--------+-----------------------------+------------------------------------------------------+
+| METHOD |            PATH             |                       HANDLER                        |
++--------+-----------------------------+------------------------------------------------------+
+| POST   | /api/bigfile/token/create   | github.com/bigfile/bigfile/http.TokenCreateHandler   |
+| POST   | /api/bigfile/file/create    | github.com/bigfile/bigfile/http.FileCreateHandler    |
+| PATCH  | /api/bigfile/token/update   | github.com/bigfile/bigfile/http.TokenUpdateHandler   |
+| PATCH  | /api/bigfile/file/update    | github.com/bigfile/bigfile/http.FileUpdateHandler    |
+| DELETE | /api/bigfile/token/delete   | github.com/bigfile/bigfile/http.TokenDeleteHandler   |
+| DELETE | /api/bigfile/file/delete    | github.com/bigfile/bigfile/http.FileDeleteHandler    |
+| GET    | /api/bigfile/file/read      | github.com/bigfile/bigfile/http.FileReadHandler      |
+| GET    | /api/bigfile/directory/list | github.com/bigfile/bigfile/http.DirectoryListHandler |
++--------+-----------------------------+------------------------------------------------------+
+</code></pre>
+
+<h3 id="parameter-signature">Parameter Signature</h3>
+
+<p>Before you start using it, what you need to know is how to sign the parameters. The rules are actually very simple. All parameters, except binary data, are sorted alphabetically, forming key-value pairs in the form of <code>Key=Value</code>, then using <code>&amp;</code> matching, finally concating the password, and then performing an MD5 calculation, which is over.</p>
+
+<p>for example,you password is <code>46afc3607a93ac410357a8ed53a872b8</code>， and you have these parameters, <code>name=bigfile</code>, <code>age=25</code>, and <code>gender=body</code>.</p>
+
+<p>After sort and concat is: <code>age=25&amp;gender=body&amp;name=bigfile46afc3607a93ac410357a8ed53a872b8</code></p>
+
+<p>Running the md5 algorithm, pseudo code is: <code>md5(&quot;age=25&amp;gender=body&amp;name=bigfile46afc3607a93ac410357a8ed53a872b8&quot;)</code>. Assume the result is <code>f8f2ae1fe4f70b788254dcc991a35558</code>.</p>
+
+<p>Then you should submit these parameters: <code>age=25&amp;gender=body&amp;name=bigfile&amp;sign=f8f2ae1fe4f70b788254dcc991a35558</code>.</p>
+
+<p>Very simple, isn&rsquo;t it?</p>
+
+<h3 id="token-create">Token Create</h3>
+
+<p>Creating a Token is the beginning of all subsequent operations. Before we start, let&rsquo;s take a look at the parameters of this API.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">appUid</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">app uid</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the signature of parameters</td>
+</tr>
+
+<tr>
+<td align="center">path</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">default: <code>/</code>, the scope of token</td>
+</tr>
+
+<tr>
+<td align="center">ip</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">limit the ip that uses this token, multiple ips separated by commas</td>
+</tr>
+
+<tr>
+<td align="center">expiredAt</td>
+<td align="center">timestamp</td>
+<td align="center">no</td>
+<td align="center">default permanent</td>
+</tr>
+
+<tr>
+<td align="center">secret</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">token secret, length: <code>32</code></td>
+</tr>
+
+<tr>
+<td align="center">availableTimes</td>
+<td align="center">int</td>
+<td align="center">no</td>
+<td align="center">default permanent</td>
+</tr>
+
+<tr>
+<td align="center">readOnly</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">whether this token is only be used to download file</td>
+</tr>
+</tbody>
+</table>
+
+<p>For security, we recommend setting the expiration time and scope for each token. Let&rsquo;s look at a complete example:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	libHttp &quot;net/http&quot;
+	&quot;strings&quot;
+	&quot;time&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	appUid := &quot;42c4fcc1a620c9e97188f50b6f2ab199&quot;
+	appSecret := &quot;f8f2ae1fe4f70b788254dcc991a35558&quot;
+	body := http.GetParamsSignBody(map[string]interface{}{
+		&quot;appUid&quot;:         appUid,
+		&quot;nonce&quot;:          models.RandomWithMd5(128),
+		&quot;path&quot;:           &quot;/images/png&quot;,
+		&quot;expiredAt&quot;:      time.Now().AddDate(0, 0, 2).Unix(),
+		&quot;secret&quot;:         models.RandomWithMd5(44),
+		&quot;availableTimes&quot;: -1,
+		&quot;readOnly&quot;:       false,
+	}, appSecret)
+	request, err := libHttp.NewRequest(
+		&quot;POST&quot;, &quot;https://127.0.0.1:10985/api/bigfile/token/create&quot;, strings.NewReader(body))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	request.Header.Set(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;)
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>After request, you will get a response like this:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10001,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;availableTimes&quot;:-1,
+        &quot;expiredAt&quot;:1568127304,
+        &quot;ip&quot;:null,
+        &quot;path&quot;:&quot;/images/png&quot;,
+        &quot;readOnly&quot;:0,
+        &quot;secret&quot;:&quot;46afc3607a93ac410357a8ed53a872b8&quot;,
+        &quot;token&quot;:&quot;4d50ae8061c1d6f148a45031356294bd&quot;
+    }
+}
+</code></pre>
+
+<h3 id="token-update">Token Update</h3>
+
+<p>When a token is created, we can update it as needed. Let&rsquo;s take a look at the parameters of this API. In addition to which token needs to be pointed out, the other parameters are almost indentical to the creation of the token.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">appUid</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">app uid</td>
+</tr>
+
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the token needs to be updated</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the signature of parameters</td>
+</tr>
+
+<tr>
+<td align="center">path</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">default: <code>/</code>, the scope of token</td>
+</tr>
+
+<tr>
+<td align="center">ip</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">limit the ip that uses this token, multiple ips separated by commas</td>
+</tr>
+
+<tr>
+<td align="center">expiredAt</td>
+<td align="center">timestamp</td>
+<td align="center">no</td>
+<td align="center">default permanent</td>
+</tr>
+
+<tr>
+<td align="center">secret</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">token secret, length: <code>32</code></td>
+</tr>
+
+<tr>
+<td align="center">availableTimes</td>
+<td align="center">int</td>
+<td align="center">no</td>
+<td align="center">default permanent</td>
+</tr>
+
+<tr>
+<td align="center">readOnly</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">whether this token is only be used to download file</td>
+</tr>
+</tbody>
+</table>
+
+<p>There&rsquo;s a complete exmaple:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	libHttp &quot;net/http&quot;
+	&quot;strings&quot;
+	&quot;time&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	appUid := &quot;42c4fcc1a620c9e97188f50b6f2ab199&quot;
+	appSecret := &quot;f8f2ae1fe4f70b788254dcc991a35558&quot;
+	body := http.GetParamsSignBody(map[string]interface{}{
+		&quot;appUid&quot;:         appUid,
+		&quot;token&quot;:          &quot;4d50ae8061c1d6f148a45031356294bd&quot;,
+		&quot;nonce&quot;:          models.RandomWithMd5(128),
+		&quot;path&quot;:           &quot;/images/png&quot;,
+		&quot;expiredAt&quot;:      time.Now().AddDate(0, 0, 10).Unix(),
+		&quot;secret&quot;:         models.RandomWithMd5(44),
+		&quot;availableTimes&quot;: -1,
+		&quot;readOnly&quot;:       false,
+	}, appSecret)
+	request, err := libHttp.NewRequest(
+		libHttp.MethodPatch, &quot;https://127.0.0.1:10985/api/bigfile/token/update&quot;, strings.NewReader(body))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	request.Header.Set(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;)
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>After request, you will get a response like this:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10003,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;availableTimes&quot;:-1,
+        &quot;expiredAt&quot;:1568819447,
+        &quot;ip&quot;:null,
+        &quot;path&quot;:&quot;/images/png&quot;,
+        &quot;readOnly&quot;:0,
+        &quot;secret&quot;:&quot;471c983b1e7052ef6a3ed4bd8b3bb42b&quot;,
+        &quot;token&quot;:&quot;4d50ae8061c1d6f148a45031356294bd&quot;
+    }
+}
+</code></pre>
+
+<p>In this example, we update the expired time. <strong>Note that the Http method is <code>PATCH</code> here.</strong></p>
+
+<h3 id="token-delete">Token Delete</h3>
+
+<p>When a token is no longer used, we should delete it. The pamameters for deleting a token is very simple.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">appUid</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">app uid</td>
+</tr>
+
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the token needs to be updated</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the signature of parameters</td>
+</tr>
+</tbody>
+</table>
+
+<p>But you need to pay attention to is that HTTP method here is <code>DELETE</code>, and according to the HTTP protocol, the body is not parsed in the delete method, so we should put the parameters in the query string. A complete example is as follow:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	libHttp &quot;net/http&quot;
+	&quot;strings&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	appUid := &quot;42c4fcc1a620c9e97188f50b6f2ab199&quot;
+	appSecret := &quot;f8f2ae1fe4f70b788254dcc991a35558&quot;
+	qs := http.GetParamsSignBody(map[string]interface{}{
+		&quot;appUid&quot;: appUid,
+		&quot;token&quot;:  &quot;4d50ae8061c1d6f148a45031356294bd&quot;,
+		&quot;nonce&quot;:  models.RandomWithMd5(128),
+	}, appSecret)
+	url := &quot;https://127.0.0.1:10985/api/bigfile/token/delete?&quot; + qs
+	request, err := libHttp.NewRequest(libHttp.MethodDelete, url, strings.NewReader(&quot;&quot;))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>After request, you will get a response like this:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10004,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;availableTimes&quot;:-1,
+        &quot;deletedAt&quot;:1567956116,
+        &quot;expiredAt&quot;:1568819447,
+        &quot;ip&quot;:null,
+        &quot;path&quot;:&quot;/images/png&quot;,
+        &quot;readOnly&quot;:0,
+        &quot;secret&quot;:&quot;471c983b1e7052ef6a3ed4bd8b3bb42b&quot;,
+        &quot;token&quot;:&quot;4d50ae8061c1d6f148a45031356294bd&quot;
+    }
+}
+</code></pre>
+
+<p>The field <code>deletedAt</code> is existed and not null, indicating that the token has been deleted.</p>
+
+<p>In the next examples, if your token doesn&rsquo;t have a password, you don&rsquo;t have to sign it.</p>
+
+<h3 id="file-create">File Create</h3>
+
+<p>In Bigfile, file and directory both are considered to be <code>File</code>, so with this API, you can upload files or create dirctories.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">token value</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">path</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the file storage path, it&rsquo;s relative to the path of token</td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">the signature of parameters. it&rsquo;s required if the token has password</td>
+</tr>
+
+<tr>
+<td align="center">hash</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">the hash of file, based on sha256 algorithm</td>
+</tr>
+
+<tr>
+<td align="center">size</td>
+<td align="center">int</td>
+<td align="center">no</td>
+<td align="center">the size of file</td>
+</tr>
+
+<tr>
+<td align="center">overwrite</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">indicates that the file is overwritten if it exists</td>
+</tr>
+
+<tr>
+<td align="center">rename</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">indicates that the file is renamed if it exists</td>
+</tr>
+
+<tr>
+<td align="center">append</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">indicates that the file is appended if it exists</td>
+</tr>
+
+<tr>
+<td align="center">hidden</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">Indicates whether the file is hidden or not, and the hidden file cannot be downloaded.</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;bytes&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;io/ioutil&quot;
+	&quot;mime/multipart&quot;
+	libHttp &quot;net/http&quot;
+	&quot;os&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	token := &quot;49f92acd696260abba1bc4062d157199&quot;
+	tokenSecret := &quot;9bcac735fd7f25947a3909998420affa&quot;
+
+	file, err := os.Open(&quot;/Users/fudenglong/Downloads/WechatIMG455.jpeg&quot;)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for index := 0; ; index++ {
+		var (
+			err            error
+			body           = new(bytes.Buffer)
+			chunk          = make([]byte, models.ChunkSize)
+			request        *libHttp.Request
+			readCount      int
+			formBodyWriter = multipart.NewWriter(body)
+			formFileWriter io.Writer
+		)
+		if readCount, err = file.Read(chunk); err != nil {
+			fmt.Println(err)
+			return
+		}
+		params := map[string]interface{}{
+			&quot;token&quot;: token,
+			&quot;path&quot;:  &quot;/profile/WechatIMG455.jpeg&quot;,
+			&quot;nonce&quot;: models.RandomWithMd5(255),
+		}
+		if index == 0 {
+			params[&quot;overwrite&quot;] = &quot;1&quot;
+		} else {
+			params[&quot;append&quot;] = &quot;1&quot;
+		}
+		params[&quot;sign&quot;] = http.GetParamsSignature(params, tokenSecret)
+		for k, v := range params {
+			if err = formBodyWriter.WriteField(k, v.(string)); err != nil {
+				fmt.Println(err)
+				return
+			}
+		}
+		if formFileWriter, err = formBodyWriter.CreateFormFile(&quot;file&quot;, &quot;random.bytes&quot;); err != nil {
+			fmt.Println(err)
+			return
+		}
+		if _, err = formFileWriter.Write(chunk[:readCount]); err != nil {
+			fmt.Println(err)
+			return
+		}
+		if err = formBodyWriter.Close(); err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		api := &quot;https://127.0.0.1:10985/api/bigfile/file/create&quot;
+		if request, err = libHttp.NewRequest(libHttp.MethodPost, api, body); err != nil {
+			fmt.Println(err)
+			return
+		}
+		request.Header.Set(&quot;Content-Type&quot;, formBodyWriter.FormDataContentType())
+		resp, err := libHttp.DefaultClient.Do(request)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+			fmt.Println(err)
+			return
+		} else {
+			fmt.Println(string(bodyBytes))
+		}
+
+	}
+}
+</code></pre>
+
+<p>In this example, we uploaded a 4.7MB image. Since Bigfile only allows a maximum of 1MB of files to be uploded, we split the file into 1MB pieces and upload it. Moreover, when uploading the first chunk, if the specified path already exists, we overwrite it. Subsequent chunks can be appended to the path.</p>
+
+<p>In this upload, we will get 5 responses，let&rsquo;s see the last response：</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10020,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;ext&quot;:&quot;jpeg&quot;,
+        &quot;fileUid&quot;:&quot;64c8a8ecd911630acf1dc26e8319f2dd&quot;,
+        &quot;hash&quot;:&quot;9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593&quot;,
+        &quot;hidden&quot;:0,
+        &quot;isDir&quot;:0,
+        &quot;path&quot;:&quot;/images/png/profile/WechatIMG455.jpeg&quot;,
+        &quot;size&quot;:4698744
+    }
+}
+</code></pre>
+
+<p>From the response we can see that the file is stored in path <code>/images/png/profile/WechatIMG455.jpeg</code>. And the hash of the whole file is <code>9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593</code>. This can be used by us to verify the integrity of the file. <code>isDir=0</code> indicates we create a file, not directory. When you don&rsquo;t set the <code>file</code> field, you will create a directory.</p>
+
+<h3 id="file-update">File Update</h3>
+
+<p>After the file is uploaded, we can update a file, mainly used to move the file to another path, let&rsquo;s try.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the token that can access to this file</td>
+</tr>
+
+<tr>
+<td align="center">fileUid</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">file uid</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">path</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">the file storage path, it&rsquo;s relative to the path of token</td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">the signature of parameters. it&rsquo;s required if the token has password</td>
+</tr>
+
+<tr>
+<td align="center">hidden</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">Indicates whether the file is hidden or not, and the hidden file cannot be downloaded.</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	libHttp &quot;net/http&quot;
+	&quot;strings&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	token := &quot;49f92acd696260abba1bc4062d157199&quot;
+	tokenSecret := &quot;9bcac735fd7f25947a3909998420affa&quot;
+	body := http.GetParamsSignBody(map[string]interface{}{
+		&quot;token&quot;:   token,
+		&quot;fileUid&quot;: &quot;64c8a8ecd911630acf1dc26e8319f2dd&quot;,
+		&quot;nonce&quot;:   models.RandomWithMd5(128),
+		&quot;path&quot;:    &quot;/profile/profile.jpeg&quot;,
+	}, tokenSecret)
+	request, err := libHttp.NewRequest(
+		libHttp.MethodPatch, &quot;https://127.0.0.1:10985/api/bigfile/file/update&quot;, strings.NewReader(body))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	request.Header.Set(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;)
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>We will get a response like this:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10021,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;ext&quot;:&quot;jpeg&quot;,
+        &quot;fileUid&quot;:&quot;64c8a8ecd911630acf1dc26e8319f2dd&quot;,
+        &quot;hash&quot;:&quot;9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593&quot;,
+        &quot;hidden&quot;:0,
+        &quot;isDir&quot;:0,
+        &quot;path&quot;:&quot;/images/png/profile/profile.jpeg&quot;,
+        &quot;size&quot;:4698744
+    }
+}
+</code></pre>
+
+<p>As you can see from the above results, the file is moved to another path, but the file uid never changes.</p>
+
+</div>
+
+
+  
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="https://bigfile.site/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  code with <i class='fa fa-heart'></i>
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2019 bigfile.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//your_disqus_shortname.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://utteranc.es/client.js" repo="bigfile/bigfile" issue-term="og:title" theme="github-light"
+  crossorigin="anonymous" async>
+</script>
+
+
+
+    
+  </body>
+</html>
+

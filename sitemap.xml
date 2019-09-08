@@ -4,6 +4,22 @@
   
   <url>
     <loc>https://bigfile.site/</loc>
+    <lastmod>2019-09-08T21:30:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://bigfile.site/http/</loc>
+    <lastmod>2019-09-08T21:30:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://bigfile.site/about/</loc>
+    <lastmod>2019-09-06T17:07:07+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://bigfile.site/license/</loc>
+    <priority>0</priority>
   </url>
   
   <url>

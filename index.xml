@@ -9,9 +9,41 @@
     <managingEditor>bigfilefu@gmail.com (bigfile)</managingEditor>
     <webMaster>bigfilefu@gmail.com (bigfile)</webMaster>
     <copyright>(c) 2019 bigfile.</copyright>
+    <lastBuildDate>Sun, 08 Sep 2019 21:30:11 +0800</lastBuildDate>
     
 	<atom:link href="https://bigfile.site/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Http</title>
+      <link>https://bigfile.site/http/</link>
+      <pubDate>Sun, 08 Sep 2019 21:30:11 +0800</pubDate>
+      <author>bigfilefu@gmail.com (bigfile)</author>
+      <guid>https://bigfile.site/http/</guid>
+      <description>The http protocol is the first protocol we implemented. In this way, most languages can access Bigfile at almost no cost. In http protocol, we have the following characteristics:
+ record every access rquest (default: enable) parameter signature verification (default: enable) rate limit by ip (default: disable) prevent replay attacks (default: enable)  Next, we will make an example of the use of each API.
+Start Http Server You can start the http service with the Bigfile command line tool, like this:</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://bigfile.site/about/</link>
+      <pubDate>Fri, 06 Sep 2019 17:07:07 +0800</pubDate>
+      <author>bigfilefu@gmail.com (bigfile)</author>
+      <guid>https://bigfile.site/about/</guid>
+      <description>Bigfile is a file transfer system, supports http, ftp and rpc protocol. It is built on top of many excellent open source projects. Designed to provide a file management service and give developers more help. At the bottom, bigfile splits the file into small pieces of 1MB, the same slice will only be stored once. Please allow me to illustrate the entire architecture with a picture.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://bigfile.site/license/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>bigfilefu@gmail.com (bigfile)</author>
+      <guid>https://bigfile.site/license/</guid>
+      <description>MIT License
+Copyright &amp;copy; 2019 bigfile
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;laquo;Software&amp;raquo;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</description>
+    </item>
     
   </channel>
 </rss>
