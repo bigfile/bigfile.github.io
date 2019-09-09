@@ -1,5 +1,5 @@
 ---
-title: "Http"
+title: "HTTP"
 date: 2019-09-08T21:30:11+08:00
 draft: false
 ---
@@ -20,7 +20,11 @@ You can start the http service with the Bigfile command line tool, like this:
 
     bigfile http:start --cert-file bigfile.pem --cert-key bigfile.key
 
-After the startup is successful, you will see a message. You can view the current http supported routes in the following way.
+After the startup is successful, you will see a message. 
+
+	[2019/09/09 09:10:41.078] 14412 INFO  bigfile http service listening on: https://0.0.0.0:10985
+
+You can view the current http supported routes in the following way.
 
     bigfile http:routes   
 

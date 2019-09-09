@@ -1,7 +1,23 @@
-[about]
+[0-about]
   Name = "About"
   URL = "about"
 
-[http]
-  Name = "Http"
+[1-app]
+  Name = "App"
+  URL = "app"
+
+[2-token]
+  Name = "Token"
+  URL = "token"
+
+[3-http]
+  Name = "HTTP"
   URL = "http"
+
+[4-http]
+  Name = "RPC"
+  URL = "rpc"
+
+[5-ftp]
+  Name = "FTP"
+  URL = "ftp"

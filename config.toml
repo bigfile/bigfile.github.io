@@ -2,7 +2,7 @@
 baseurl = "https://bigfile.site"
 
 # Site title
-title = "bigfile"
+title = "Bigfile"
 
 # Copyright
 copyright = "(c) 2019 bigfile."
@@ -33,7 +33,7 @@ disqusShortname = "your_disqus_shortname"
     topic = "topics"
 
 [author]
-    name = "bigfile"
+    name = "Bigfile"
     email = "bigfilefu@gmail.com"
 
 #
@@ -41,7 +41,7 @@ disqusShortname = "your_disqus_shortname"
 #
 [params]
     # You can use markdown here.
-    brand = "bigfile"
+    brand = "Bigfile"
     topline = "A file transfer system"
     footline = "code with <i class='fa fa-heart'></i>"
 
