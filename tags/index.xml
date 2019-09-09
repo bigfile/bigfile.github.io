@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on bigfile</title>
+    <title>Tags on Bigfile</title>
     <link>https://bigfile.site/tags/</link>
-    <description>Recent content in Tags on bigfile</description>
+    <description>Recent content in Tags on Bigfile</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-EN</language>
-    <managingEditor>bigfilefu@gmail.com (bigfile)</managingEditor>
-    <webMaster>bigfilefu@gmail.com (bigfile)</webMaster>
+    <managingEditor>bigfilefu@gmail.com (Bigfile)</managingEditor>
+    <webMaster>bigfilefu@gmail.com (Bigfile)</webMaster>
     <copyright>(c) 2019 bigfile.</copyright>
     
 	<atom:link href="https://bigfile.site/tags/index.xml" rel="self" type="application/rss+xml" />

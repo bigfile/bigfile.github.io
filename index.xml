@@ -1,35 +1,85 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>bigfile</title>
+    <title>Bigfile</title>
     <link>https://bigfile.site/</link>
-    <description>Recent content on bigfile</description>
+    <description>Recent content on Bigfile</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-EN</language>
-    <managingEditor>bigfilefu@gmail.com (bigfile)</managingEditor>
-    <webMaster>bigfilefu@gmail.com (bigfile)</webMaster>
+    <managingEditor>bigfilefu@gmail.com (Bigfile)</managingEditor>
+    <webMaster>bigfilefu@gmail.com (Bigfile)</webMaster>
     <copyright>(c) 2019 bigfile.</copyright>
-    <lastBuildDate>Sun, 08 Sep 2019 21:30:11 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 09 Sep 2019 15:00:37 +0800</lastBuildDate>
     
 	<atom:link href="https://bigfile.site/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Http</title>
+      <title>Quick Start</title>
+      <link>https://bigfile.site/quick-start/</link>
+      <pubDate>Mon, 09 Sep 2019 15:00:37 +0800</pubDate>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
+      <guid>https://bigfile.site/quick-start/</guid>
+      <description>Bigfile sticks to ease of use, all you have to do is install MySQL and create a database. If you are docker fan, then everything is even simpler. You can start a mysql like this:
+docker run -it --rm -p 33306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bigfile mysql:5.7.21 --character-set-server=utf8 --collation-server=utf8_general_ci  Here you need to set the character set to utf8. Next, you need to download the binary executable from release page.</description>
+    </item>
+    
+    <item>
+      <title>FTP</title>
+      <link>https://bigfile.site/ftp/</link>
+      <pubDate>Mon, 09 Sep 2019 13:28:42 +0800</pubDate>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
+      <guid>https://bigfile.site/ftp/</guid>
+      <description>FTP has been around for decades, but even in the 21st century, this ancient technology is still being used because it is very convenient. As long as you start an FTP server, then using the FTP client to manipulate remote server files is like working with local files.
+To support this ancient technology, we implemented the ftp protocol to facilitate the transfer of files. And, for security, we support FTPS.</description>
+    </item>
+    
+    <item>
+      <title>RPC</title>
+      <link>https://bigfile.site/rpc/</link>
+      <pubDate>Mon, 09 Sep 2019 10:19:54 +0800</pubDate>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
+      <guid>https://bigfile.site/rpc/</guid>
+      <description>To facilitate quick access to Bigfile in the application, we implemented the RPC service based on grpc. In theory, the languages ​​supported by grpc can generate corresponding clients based on proto files, and quickly call Bigfile RPC services. Not much nonsense, let&amp;rsquo;s start using it.
+Start RPC Server In the RPC service, we support double-ended authentication, and we strongly recommend that you use it. You can generate certificates through the command line tools we provide.</description>
+    </item>
+    
+    <item>
+      <title>Token</title>
+      <link>https://bigfile.site/token/</link>
+      <pubDate>Mon, 09 Sep 2019 10:08:17 +0800</pubDate>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
+      <guid>https://bigfile.site/token/</guid>
+      <description>I believe that everyone may be slightly confused when they first encounter the concept of Token. However, I also believe that after you use and understand, you find it very convenient and safe.
+As mentioned in about, there are directories and files in the Bigfile, and each app may not want to give the key to everyone. But it can create a Token, specify a directory, and restrict it to only operate in a directory.</description>
+    </item>
+    
+    <item>
+      <title>App</title>
+      <link>https://bigfile.site/app/</link>
+      <pubDate>Mon, 09 Sep 2019 09:48:01 +0800</pubDate>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
+      <guid>https://bigfile.site/app/</guid>
+      <description>In Bigfile, you can create a lot of APPs, they are logically isolated, have their own space, do not affect each other, each APP can only see the contents of their own directory. We provide a command line tool management app.
+In order to create an app, you can run the following command：
+bigfile app:new --name &amp;quot;bigfile blog&amp;quot; --note &amp;quot;for bigfile to upload file&amp;quot;  After success, you will get the App Uid and App secret.</description>
+    </item>
+    
+    <item>
+      <title>HTTP</title>
       <link>https://bigfile.site/http/</link>
       <pubDate>Sun, 08 Sep 2019 21:30:11 +0800</pubDate>
-      <author>bigfilefu@gmail.com (bigfile)</author>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
       <guid>https://bigfile.site/http/</guid>
       <description>The http protocol is the first protocol we implemented. In this way, most languages can access Bigfile at almost no cost. In http protocol, we have the following characteristics:
- record every access rquest (default: enable) parameter signature verification (default: enable) rate limit by ip (default: disable) prevent replay attacks (default: enable)  Next, we will make an example of the use of each API.
-Start Http Server You can start the http service with the Bigfile command line tool, like this:</description>
+ record every access rquest (default: enable) parameter signature verification (default: enable) rate limit by ip (default: disable) prevent replay attacks (default: enable) support cors (default: disable)  Next, we will make an example of the use of each API.</description>
     </item>
     
     <item>
       <title>About</title>
       <link>https://bigfile.site/about/</link>
       <pubDate>Fri, 06 Sep 2019 17:07:07 +0800</pubDate>
-      <author>bigfilefu@gmail.com (bigfile)</author>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
       <guid>https://bigfile.site/about/</guid>
       <description>Bigfile is a file transfer system, supports http, ftp and rpc protocol. It is built on top of many excellent open source projects. Designed to provide a file management service and give developers more help. At the bottom, bigfile splits the file into small pieces of 1MB, the same slice will only be stored once. Please allow me to illustrate the entire architecture with a picture.</description>
     </item>
@@ -38,7 +88,7 @@ Start Http Server You can start the http service with the Bigfile command line t
       <title></title>
       <link>https://bigfile.site/license/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <author>bigfilefu@gmail.com (bigfile)</author>
+      <author>bigfilefu@gmail.com (Bigfile)</author>
       <guid>https://bigfile.site/license/</guid>
       <description>MIT License
 Copyright &amp;copy; 2019 bigfile

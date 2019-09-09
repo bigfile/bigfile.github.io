@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>RPC  &middot; Bigfile</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="">
+
+
+<meta property="og:title" content="RPC  &middot; Bigfile ">
+<meta property="og:site_name" content="Bigfile"/>
+<meta property="og:url" content="https://bigfile.site/rpc/" />
+<meta property="og:locale" content="en-EN">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:description" content=""/>
+<meta property="og:article:published_time" content="2019-09-09T10:19:54&#43;08:00" />
+<meta property="og:article:modified_time" content="2019-09-09T10:19:54&#43;08:00" />
+
+  
+
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "RPC",
+    "author": {
+      "@type": "Person",
+      "name": "Bigfile"
+    },
+    "datePublished": "2019-09-09",
+    "description": "",
+    "wordCount": 1238
+  }
+</script>
+
+
+
+<link rel="canonical" href="https://bigfile.site/rpc/" />
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://bigfile.site/touch-icon-144-precomposed.png">
+<link href="https://bigfile.site/favicon.png" rel="icon">
+
+<meta name="generator" content="Hugo 0.59.0-DEV" />
+
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link href='https://fonts.googleapis.com/css?family=Merriweather:300%7CRaleway%7COpen+Sans' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight/googlecode.css">
+
+  
+  
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-147352498-1', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+
+</head>
+<body>
+  <main id="main-wrapper" class="container main_wrapper has-sidebar">
+    <header id="main-header" class="container main_header">
+  <div class="container brand">
+  <div class="container title h1-like">
+  <a class="baselink" href="https://bigfile.site">
+  Bigfile
+
+</a>
+
+</div>
+
+  
+<div class="container topline">
+  
+  A file transfer system
+
+
+</div>
+
+
+</div>
+
+  <nav class="container nav primary no-print">
+  
+
+<a class="homelink" href="https://bigfile.site">Home</a>
+
+
+  
+<a href="https://bigfile.site/about">ABOUT</a>
+
+<a href="https://bigfile.site/quick-start">QUICK START</a>
+
+<a href="https://bigfile.site/app">APP</a>
+
+<a href="https://bigfile.site/token">TOKEN</a>
+
+<a href="https://bigfile.site/http">HTTP</a>
+
+<a href="https://bigfile.site/rpc">RPC</a>
+
+<a href="https://bigfile.site/ftp">FTP</a>
+
+
+</nav>
+
+<div class="container nav secondary no-print">
+  
+<a id="contact-link-email" class="contact_link" rel="me" aria-label="Email" href="mailto:bigfilefu@gmail.com">
+  <span class="fa fa-envelope-square"></span></a>
+
+
+
+<a id="contact-link-github" class="contact_link" rel="me" aria-label="Github" href="https://github.com/bigfile/bigfile">
+  <span class="fa fa-github-square"></span></a>
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+
+</header>
+
+
+<article id="main-content" class="container main_content single">
+  <header class="container hat">
+  <h1>RPC
+</h1>
+
+</header>
+
+  <div class="container content">
+  
+
+<p>To facilitate quick access to Bigfile in the application, we implemented the RPC service based on grpc. In theory, the languages ​​supported by <a href="https://grpc.io/">grpc</a> can generate corresponding clients based on proto files, and quickly call Bigfile RPC services. Not much nonsense, let&rsquo;s start using it.</p>
+
+<h3 id="start-rpc-server">Start RPC Server</h3>
+
+<p>In the RPC service, we support double-ended authentication, and we strongly recommend that you use it. You can generate certificates through the command line tools we provide.</p>
+
+<pre><code>bigfile rpc:make-cert --server-cert-ips 127.0.0.1  --server-cert-ips 192.168.0.103
+</code></pre>
+
+<p>This command will output 6 files, they are: <code>ca.pem</code>, <code>ca.key</code>, <code>server.pem</code>, <code>server.key</code>, <code>client.pem</code> and <code>client.key</code>.</p>
+
+<p>Next, let&rsquo;s start the server and use it.</p>
+
+<pre><code>bigfile rpc:start --server-cert server.pem --server-key server.key --ca-cert ca.pem
+</code></pre>
+
+<p>After successful startup, you will get a message, like this:</p>
+
+<pre><code>[2019/09/09 10:47:35.090] 18057 INFO  bigfile rpc service listening on: tcp://[::]:10986
+</code></pre>
+
+<h3 id="connect-to-serevr">Connect to Serevr</h3>
+
+<p>Before actually using, we will connect to Server first. In subsequent use, we will skip this part. You also can find more detailed examples <a href="https://godoc.org/github.com/bigfile/bigfile/rpc#pkg-examples">here</a>.</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;crypto/tls&quot;
+	&quot;crypto/x509&quot;
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+
+	&quot;google.golang.org/grpc&quot;
+	&quot;google.golang.org/grpc/credentials&quot;
+)
+
+func createConnection() (*grpc.ClientConn, error) {
+	var (
+		err           error
+		conn          *grpc.ClientConn
+		cert          tls.Certificate
+		certPool      *x509.CertPool
+		rootCertBytes []byte
+	)
+	if cert, err = tls.LoadX509KeyPair(&quot;client.pem&quot;, &quot;client.key&quot;); err != nil {
+		return nil, err
+	}
+
+	certPool = x509.NewCertPool()
+	if rootCertBytes, err = ioutil.ReadFile(&quot;ca.pem&quot;); err != nil {
+		return nil, err
+	}
+
+	if !certPool.AppendCertsFromPEM(rootCertBytes) {
+		return nil, err
+	}
+
+	if conn, err = grpc.Dial(&quot;192.168.0.103:10986&quot;, grpc.WithTransportCredentials(credentials.NewTLS(&amp;tls.Config{
+		Certificates: []tls.Certificate{cert},
+		RootCAs:      certPool,
+	}))); err != nil {
+		return nil, err
+	}
+	return conn, err
+}
+
+func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+}
+</code></pre>
+
+<h3 id="token-create">Token Create</h3>
+
+<p>Using rpc will make the code simpler，the bellow <code>rpc</code> package is from <code>github.com/bigfile/bigfile/rpc</code>.</p>
+
+<pre><code class="language-go">func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	grpcClient := rpc.NewTokenCreateClient(conn)
+	fmt.Println(grpcClient.TokenCreate(context.TODO(), &amp;rpc.TokenCreateRequest{
+		AppUid:    &quot;42c4fcc1a620c9e97188f50b6f2ab199&quot;,
+		AppSecret: &quot;f8f2ae1fe4f70b788254dcc991a35558&quot;,
+	}))
+}
+</code></pre>
+
+<h3 id="token-update">Token Update</h3>
+
+<p>Because it is too simple, so don&rsquo;t explain. the <code>timestamp</code> package is from <code>github.com/golang/protobuf/ptypes/timestamp</code>.</p>
+
+<pre><code class="language-go">func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	grpcClient := rpc.NewTokenUpdateClient(conn)
+	fmt.Println(grpcClient.TokenUpdate(context.TODO(), &amp;rpc.TokenUpdateRequest{
+		AppUid:    &quot;42c4fcc1a620c9e97188f50b6f2ab199&quot;,
+		AppSecret: &quot;f8f2ae1fe4f70b788254dcc991a35558&quot;,
+		Token:     &quot;1088f321f3c04becf04ec315fc023e81&quot;,
+		ExpiredAt: &amp;timestamp.Timestamp{Seconds: time.Now().Add(1000 * time.Minute).Unix()},
+	}))
+}
+</code></pre>
+
+<h3 id="token-delete">Token Delete</h3>
+
+<pre><code class="language-go">func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	grpcClient := rpc.NewTokenDeleteClient(conn)
+	fmt.Println(grpcClient.TokenDelete(context.TODO(), &amp;rpc.TokenDeleteRequest{
+		AppUid:    &quot;42c4fcc1a620c9e97188f50b6f2ab199&quot;,
+		AppSecret: &quot;f8f2ae1fe4f70b788254dcc991a35558&quot;,
+		Token:     &quot;1088f321f3c04becf04ec315fc023e81&quot;,
+	}))
+}
+</code></pre>
+
+<h3 id="file-create">File Create</h3>
+
+<p>Uploading the file is a bit complicated, let&rsquo;s do an explaination. In <em>File Create</em>, the server receives a streaming request and gets a response for each request. Too much nonsense is not as good as writing an example.</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;context&quot;
+	&quot;crypto/tls&quot;
+	&quot;crypto/x509&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;io/ioutil&quot;
+	&quot;os&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/rpc&quot;
+	&quot;github.com/golang/protobuf/ptypes/wrappers&quot;
+	&quot;google.golang.org/grpc&quot;
+	&quot;google.golang.org/grpc/credentials&quot;
+)
+
+func createConnection() (*grpc.ClientConn, error) {
+	var (
+		err           error
+		conn          *grpc.ClientConn
+		cert          tls.Certificate
+		certPool      *x509.CertPool
+		rootCertBytes []byte
+	)
+	if cert, err = tls.LoadX509KeyPair(&quot;client.pem&quot;, &quot;client.key&quot;); err != nil {
+		return nil, err
+	}
+
+	certPool = x509.NewCertPool()
+	if rootCertBytes, err = ioutil.ReadFile(&quot;ca.pem&quot;); err != nil {
+		return nil, err
+	}
+
+	if !certPool.AppendCertsFromPEM(rootCertBytes) {
+		return nil, err
+	}
+
+	if conn, err = grpc.Dial(&quot;192.168.0.103:10986&quot;, grpc.WithTransportCredentials(credentials.NewTLS(&amp;tls.Config{
+		Certificates: []tls.Certificate{cert},
+		RootCAs:      certPool,
+	}))); err != nil {
+		return nil, err
+	}
+	return conn, err
+}
+
+func main() {
+	var (
+		ctx            context.Context
+		err            error
+		resp           *rpc.FileCreateResponse
+		cancel         context.CancelFunc
+		client         rpc.FileCreateClient
+		streamClient   rpc.FileCreate_FileCreateClient
+		waitUploadFile *os.File
+		conn           *grpc.ClientConn
+	)
+
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+	ctx, cancel = context.WithCancel(context.Background())
+	defer cancel()
+	client = rpc.NewFileCreateClient(conn)
+	if streamClient, err = client.FileCreate(ctx); err != nil {
+		fmt.Println(err)
+		return
+	}
+	if waitUploadFile, err = os.Open(&quot;/Users/fudenglong/Downloads/profile.jpeg&quot;); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer waitUploadFile.Close()
+	for index := 0; ; index++ {
+		var chunk = make([]byte, models.ChunkSize*2)
+		var size int
+		var quit bool
+		if size, err = waitUploadFile.Read(chunk); err != nil {
+			if err != io.EOF {
+				fmt.Println(err)
+				return
+			}
+			quit = true
+		}
+		req := &amp;rpc.FileCreateRequest{
+			Token:   &quot;ee3caab522b1848744c9df3aa980346f&quot;,
+			Path:    &quot;/my-profiles/profile.jpeg&quot;,
+			Content: &amp;wrappers.BytesValue{Value: chunk[:size]},
+		}
+		if index == 0 {
+			req.Operation = &amp;rpc.FileCreateRequest_Overwrite{Overwrite: true}
+		} else {
+			req.Operation = &amp;rpc.FileCreateRequest_Append{Append: true}
+		}
+		fmt.Println(&quot;sending request&quot;)
+		if err = streamClient.Send(req); err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(&quot;waiting resp&quot;)
+		if resp, err = streamClient.Recv(); err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(resp)
+		if quit {
+			break
+		}
+	}
+}
+</code></pre>
+
+<h3 id="file-read">File Read</h3>
+
+<p>In <em>File Read</em>, you will get a stream response for file content.</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;bytes&quot;
+	&quot;context&quot;
+	&quot;crypto/tls&quot;
+	&quot;crypto/x509&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;io/ioutil&quot;
+	&quot;strconv&quot;
+
+	&quot;github.com/bigfile/bigfile/internal/util&quot;
+	&quot;github.com/bigfile/bigfile/rpc&quot;
+	&quot;google.golang.org/grpc/metadata&quot;
+
+	&quot;google.golang.org/grpc&quot;
+	&quot;google.golang.org/grpc/credentials&quot;
+)
+
+func createConnection() (*grpc.ClientConn, error) {
+	var (
+		err           error
+		conn          *grpc.ClientConn
+		cert          tls.Certificate
+		certPool      *x509.CertPool
+		rootCertBytes []byte
+	)
+	if cert, err = tls.LoadX509KeyPair(&quot;client.pem&quot;, &quot;client.key&quot;); err != nil {
+		return nil, err
+	}
+
+	certPool = x509.NewCertPool()
+	if rootCertBytes, err = ioutil.ReadFile(&quot;ca.pem&quot;); err != nil {
+		return nil, err
+	}
+
+	if !certPool.AppendCertsFromPEM(rootCertBytes) {
+		return nil, err
+	}
+
+	if conn, err = grpc.Dial(&quot;192.168.0.103:10986&quot;, grpc.WithTransportCredentials(credentials.NewTLS(&amp;tls.Config{
+		Certificates: []tls.Certificate{cert},
+		RootCAs:      certPool,
+	}))); err != nil {
+		return nil, err
+	}
+	return conn, err
+}
+
+func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+
+	var (
+		client       = rpc.NewFileReadClient(conn)
+		header       metadata.MD
+		fileName     string
+		fileHash     string
+		dataHash     string
+		dataBuffer   *bytes.Buffer
+		fileSize     int
+		streamClient rpc.FileRead_FileReadClient
+	)
+	if streamClient, err = client.FileRead(context.Background(), &amp;rpc.FileReadRequest{
+		Token:   &quot;ee3caab522b1848744c9df3aa980346f&quot;,
+		FileUid: &quot;b58a51fc0ee8d95918c9715bfdb2af0d&quot;,
+	}); err != nil {
+		fmt.Println(err)
+		return
+	}
+	if header, err = streamClient.Header(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	fileName = header.Get(&quot;name&quot;)[0]
+	fileHash = header.Get(&quot;hash&quot;)[0]
+	if fileSize, err = strconv.Atoi(header.Get(&quot;size&quot;)[0]); err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf(&quot;name = %s, hash = %s, size = %d\n&quot;, fileName, fileHash, fileSize)
+	dataBuffer = new(bytes.Buffer)
+	for {
+		if resp, err := streamClient.Recv(); err != nil {
+			if err != io.EOF {
+				fmt.Println(err)
+				return
+			}
+			break
+		} else {
+			if _, err = dataBuffer.Write(resp.Content); err != nil {
+				fmt.Println(err)
+				return
+			}
+		}
+	}
+	if dataHash, err = util.Sha256Hash2String(dataBuffer.Bytes()); err != nil {
+		fmt.Println(err)
+		return
+	}
+	if dataHash != fileHash {
+		fmt.Println(&quot;file is broken&quot;)
+		return
+	}
+
+	// here, you should put fileContent to a file, example:
+	// _ = ioutil.WriteFile(fileName, dataBuffer.Bytes(), 0666)
+}
+</code></pre>
+
+<h3 id="file-update">File Update</h3>
+
+<p>I know that you are the smartest, so I don&rsquo;t waste time.</p>
+
+<pre><code class="language-go">func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+	c := rpc.NewFileUpdateClient(conn)
+	resp, err := c.FileUpdate(context.Background(), &amp;rpc.FileUpdateRequest{
+		Token:   &quot;ee3caab522b1848744c9df3aa980346f&quot;,
+		FileUid: &quot;b58a51fc0ee8d95918c9715bfdb2af0d&quot;,
+		Path:    &quot;/another/dir/profile.jpeg&quot;,
+	})
+	fmt.Println(resp, err)
+}
+</code></pre>
+
+<h3 id="directory-list">Directory List</h3>
+
+<p><code>wrappers</code> package is from <code>github.com/golang/protobuf/ptypes/wrappers</code>.</p>
+
+<pre><code class="language-go">func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+	c := rpc.NewDirectoryListClient(conn)
+	resp, err := c.DirectoryList(context.Background(), &amp;rpc.DirectoryListRequest{
+		Token:  &quot;ee3caab522b1848744c9df3aa980346f&quot;,
+		Sort:   rpc.DirectoryListRequest_AscType,
+		SubDir: &amp;wrappers.StringValue{Value: &quot;/another/dir&quot;},
+	})
+	fmt.Println(resp, err)
+}
+</code></pre>
+
+<h3 id="file-delete">File Delete</h3>
+
+<p>It’s so simple, I don’t know what to say.</p>
+
+<pre><code class="language-go">func main() {
+	var (
+		err  error
+		conn *grpc.ClientConn
+	)
+	if conn, err = createConnection(); err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer conn.Close()
+	c := rpc.NewFileDeleteClient(conn)
+	resp, err := c.FileDelete(context.Background(), &amp;rpc.FileDeleteRequest{
+		Token:            &quot;ee3caab522b1848744c9df3aa980346f&quot;,
+		FileUid:          &quot;b58a51fc0ee8d95918c9715bfdb2af0d&quot;,
+		ForceDeleteIfDir: false,
+	})
+	fmt.Println(resp, err)
+}
+</code></pre>
+
+<p>In the above example, we only give examples of the Go language. Other languages ​​will be given in the following steps. In fact, you only need to generate the corresponding language client based on the protos file we have written. such as for go:</p>
+
+<pre><code>protoc -I protos  protos/* --go_out=plugins=grpc,paths=source_relative:.
+</code></pre>
+
+<p>Documents for other languages you can find <a href="https://grpc.io/docs/quickstart/">here</a>.</p>
+
+</div>
+
+
+  
+</article>
+      <footer id="main-footer" class="container main_footer">
+  
+
+  <div class="container nav foot no-print">
+  
+<a href="https://bigfile.site/license">license</a>
+
+
+  <a class="toplink" href="#">back to top</a>
+
+</div>
+
+  <div class="container credits">
+  
+<div class="container footline">
+  
+  code with <i class='fa fa-heart'></i>
+
+
+</div>
+
+
+  
+<div class="container copyright">
+  
+  &copy; 2019 bigfile.
+
+
+</div>
+
+
+</div>
+
+</footer>
+
+    </main>
+    
+<script type="text/javascript">
+  (function() {
+    
+    
+    if (window.location.hostname == "localhost")
+      return;
+    var dsq = document.createElement('script'); dsq.async = true; dsq.type = 'text/javascript';
+    dsq.src = '//your_disqus_shortname.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://utteranc.es/client.js" repo="bigfile/bigfile" issue-term="og:title" theme="github-light"
+  crossorigin="anonymous" async>
+</script>
+
+
+
+    
+  </body>
+</html>
+

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>About  &middot; Bigfile</title>
+  <title>App  &middot; Bigfile</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -17,16 +17,16 @@
 <meta name="keywords" content="">
 
 
-<meta property="og:title" content="About  &middot; Bigfile ">
+<meta property="og:title" content="App  &middot; Bigfile ">
 <meta property="og:site_name" content="Bigfile"/>
-<meta property="og:url" content="https://bigfile.site/about/" />
+<meta property="og:url" content="https://bigfile.site/app/" />
 <meta property="og:locale" content="en-EN">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:description" content=""/>
-<meta property="og:article:published_time" content="2019-09-06T17:07:07&#43;08:00" />
-<meta property="og:article:modified_time" content="2019-09-06T17:07:07&#43;08:00" />
+<meta property="og:article:published_time" content="2019-09-09T09:48:01&#43;08:00" />
+<meta property="og:article:modified_time" content="2019-09-09T09:48:01&#43;08:00" />
 
   
 
@@ -36,20 +36,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "About",
+    "headline": "App",
     "author": {
       "@type": "Person",
       "name": "Bigfile"
     },
-    "datePublished": "2019-09-06",
+    "datePublished": "2019-09-09",
     "description": "",
-    "wordCount": 150
+    "wordCount": 131
   }
 </script>
 
 
 
-<link rel="canonical" href="https://bigfile.site/about/" />
+<link rel="canonical" href="https://bigfile.site/app/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://bigfile.site/touch-icon-144-precomposed.png">
 <link href="https://bigfile.site/favicon.png" rel="icon">
@@ -169,28 +169,26 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>About
+  <h1>App
 </h1>
 
 </header>
 
   <div class="container content">
-  <p><a href="https://travis-ci.org/bigfile/bigfile"><img src="https://travis-ci.org/bigfile/bigfile.svg?branch=master" alt="Build Status" /></a>
-<a href="https://codecov.io/gh/bigfile/bigfile"><img src="https://codecov.io/gh/bigfile/bigfile/branch/master/graph/badge.svg" alt="codecov" /></a>
-<a href="https://github.com/bigfile/bigfile"><img src="https://godoc.org/github.com/bigfile/bigfile?status.svg" alt="GoDoc" /></a>
-<a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fbigfile%2Fbigfile?ref=badge_shield"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fbigfile%2Fbigfile.svg?type=shield" alt="FOSSA Status" /></a>
-<a href="https://goreportcard.com/report/github.com/bigfile/bigfile"><img src="https://goreportcard.com/badge/github.com/bigfile/bigfile" alt="Go Report Card" /></a>
-<a href="https://www.codetriage.com/bigfile/bigfile"><img src="https://www.codetriage.com/bigfile/bigfile/badges/users.svg" alt="Open Source Helpers" /></a></p>
+  <p>In Bigfile, you can create a lot of APPs, they are logically isolated, have their own space, do not affect each other, each APP can only see the contents of their own directory. We provide a command line tool management app.</p>
 
-<p><strong>Bigfile</strong> is a file transfer system, supports http, ftp and rpc protocol. It is built on top of many excellent open source projects. Designed to provide a file management service and give developers more help. At the bottom, bigfile splits the file into small pieces of 1MB, the same slice will only be stored once. Please allow me to illustrate the entire architecture with a picture.</p>
+<p>In order to create an app, you can run the following command：</p>
 
-<p><img src="/bigfile.png" alt="architecture" /></p>
+<pre><code>bigfile app:new --name &quot;bigfile blog&quot; --note &quot;for bigfile to upload file&quot;
+</code></pre>
 
-<p>In fact, we built a file organization system based on the database. Here you can find familiar files and folders. But in Bigfile, files and folders both are considered to be files.</p>
+<p>After success, you will get the App Uid and App secret.</p>
 
-<p>Since the rpc and http protocols are supported, those languages supported by <a href="https://grpc.io/">grpc</a> and other languages can be quickly accessed. If you are not a programmer, you can use the ftp client to manage your files, the only thing you need to do is start Bigfile.</p>
+<p>If you want to delete an app, you can run the command: <code>bigfile app:delete --uid=foobar</code>, run command <code>bigfile app:delete</code> will get more help.</p>
 
-<p>It&rsquo;s not <code>big</code>， It has <code>逼格</code>.</p>
+<p>As a system administrator, you may want to view all the apps in the system, it is very simple, just run the command: <code>bigfile app:list</code>.</p>
+
+<p>I hope Bigfile will bring you more happiness.</p>
 
 </div>
 

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>Http  &middot; bigfile</title>
+  <title>HTTP  &middot; Bigfile</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
@@ -17,8 +17,8 @@
 <meta name="keywords" content="">
 
 
-<meta property="og:title" content="Http  &middot; bigfile ">
-<meta property="og:site_name" content="bigfile"/>
+<meta property="og:title" content="HTTP  &middot; Bigfile ">
+<meta property="og:site_name" content="Bigfile"/>
 <meta property="og:url" content="https://bigfile.site/http/" />
 <meta property="og:locale" content="en-EN">
 
@@ -36,14 +36,14 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "Http",
+    "headline": "HTTP",
     "author": {
       "@type": "Person",
-      "name": "bigfile"
+      "name": "Bigfile"
     },
     "datePublished": "2019-09-08",
     "description": "",
-    "wordCount": 1732
+    "wordCount": 2557
   }
 </script>
 
@@ -86,7 +86,7 @@
   <div class="container brand">
   <div class="container title h1-like">
   <a class="baselink" href="https://bigfile.site">
-  bigfile
+  Bigfile
 
 </a>
 
@@ -110,9 +110,19 @@
 
 
   
-<a href="https://bigfile.site/about">About</a>
+<a href="https://bigfile.site/about">ABOUT</a>
 
-<a href="https://bigfile.site/http">Http</a>
+<a href="https://bigfile.site/quick-start">QUICK START</a>
+
+<a href="https://bigfile.site/app">APP</a>
+
+<a href="https://bigfile.site/token">TOKEN</a>
+
+<a href="https://bigfile.site/http">HTTP</a>
+
+<a href="https://bigfile.site/rpc">RPC</a>
+
+<a href="https://bigfile.site/ftp">FTP</a>
 
 
 </nav>
@@ -159,7 +169,7 @@
 
 <article id="main-content" class="container main_content single">
   <header class="container hat">
-  <h1>Http
+  <h1>HTTP
 </h1>
 
 </header>
@@ -174,6 +184,7 @@
 <li>parameter signature verification (default: enable)</li>
 <li>rate limit by ip (default: disable)</li>
 <li>prevent replay attacks (default: enable)</li>
+<li>support cors (default: disable)</li>
 </ol>
 
 <p>Next, we will make an example of the use of each API.</p>
@@ -185,7 +196,12 @@
 <pre><code>bigfile http:start --cert-file bigfile.pem --cert-key bigfile.key
 </code></pre>
 
-<p>After the startup is successful, you will see a message. You can view the current http supported routes in the following way.</p>
+<p>After the startup is successful, you will see a message.</p>
+
+<pre><code>[2019/09/09 09:10:41.078] 14412 INFO  bigfile http service listening on: https://0.0.0.0:10985
+</code></pre>
+
+<p>You can view the current http supported routes in the following way.</p>
 
 <pre><code>bigfile http:routes   
 </code></pre>
@@ -281,7 +297,7 @@
 <td align="center">secret</td>
 <td align="center">string</td>
 <td align="center">no</td>
-<td align="center">token secret, length: <code>32</code></td>
+<td align="center">token secret, length: <code>12-32</code></td>
 </tr>
 
 <tr>
@@ -434,7 +450,7 @@ func main() {
 <td align="center">secret</td>
 <td align="center">string</td>
 <td align="center">no</td>
-<td align="center">token secret, length: <code>32</code></td>
+<td align="center">token secret, length: <code>12-32</code></td>
 </tr>
 
 <tr>
@@ -830,7 +846,83 @@ func main() {
 }
 </code></pre>
 
-<p>From the response we can see that the file is stored in path <code>/images/png/profile/WechatIMG455.jpeg</code>. And the hash of the whole file is <code>9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593</code>. This can be used by us to verify the integrity of the file. <code>isDir=0</code> indicates we create a file, not directory. When you don&rsquo;t set the <code>file</code> field, you will create a directory.</p>
+<p>From the response we can see that the file is stored in path <code>/images/png/profile/WechatIMG455.jpeg</code>. And the hash of the whole file is <code>9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593</code>. This can be used by us to verify the integrity of the file. <code>isDir=0</code> indicates we create a file, not directory. When you don&rsquo;t set the <code>file</code> field, you will create a directory. Let&rsquo;s see a example:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;bytes&quot;
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	&quot;mime/multipart&quot;
+	libHttp &quot;net/http&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	var (
+		err            error
+		body           = new(bytes.Buffer)
+		request        *libHttp.Request
+		token          = &quot;49f92acd696260abba1bc4062d157199&quot;
+		tokenSecret    = &quot;9bcac735fd7f25947a3909998420affa&quot;
+		formBodyWriter = multipart.NewWriter(body)
+	)
+	params := map[string]interface{}{
+		&quot;token&quot;: token,
+		&quot;path&quot;:  &quot;/profiles&quot;,
+		&quot;nonce&quot;: models.RandomWithMd5(255),
+	}
+	params[&quot;sign&quot;] = http.GetParamsSignature(params, tokenSecret)
+	for k, v := range params {
+		if err = formBodyWriter.WriteField(k, v.(string)); err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+	if err = formBodyWriter.Close(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	api := &quot;https://127.0.0.1:10985/api/bigfile/file/create&quot;
+	if request, err = libHttp.NewRequest(libHttp.MethodPost, api, body); err != nil {
+		fmt.Println(err)
+		return
+	}
+	request.Header.Set(&quot;Content-Type&quot;, formBodyWriter.FormDataContentType())
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>This will get a different response than uploading the file.</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10025,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;fileUid&quot;:&quot;03ccc6c26ec7c3a0fe2be90c3f3882d0&quot;,
+        &quot;hidden&quot;:0,
+        &quot;isDir&quot;:1,
+        &quot;path&quot;:&quot;/images/png/profiles&quot;,
+        &quot;size&quot;:0
+    }
+}
+</code></pre>
 
 <h3 id="file-update">File Update</h3>
 
@@ -952,6 +1044,360 @@ func main() {
 </code></pre>
 
 <p>As you can see from the above results, the file is moved to another path, but the file uid never changes.</p>
+
+<h3 id="file-read">File Read</h3>
+
+<p><em>File Read</em> is used to download a file, the file is automatically downloaded when you open the download URL in your browser. If you want to preview the file in your browser, you can set <code>openInBrowser</code> to <code>true</code>.</p>
+
+<p><em>File Read</em> also supports <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests">HTTP range requests</a>, but only for <em>Single part ranges</em>.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the token that can access to this file</td>
+</tr>
+
+<tr>
+<td align="center">fileUid</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">file uid</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">the signature of parameters. it&rsquo;s required if the token has password</td>
+</tr>
+
+<tr>
+<td align="center">openInBrowser</td>
+<td align="center">bool</td>
+<td align="center">no</td>
+<td align="center">preview the file in your browser</td>
+</tr>
+</tbody>
+</table>
+
+<p>Since my token has a password, I need to sign it to generate a download link.</p>
+
+<blockquote>
+<p><a href="https://127.0.0.1:10985/api/bigfile/file/read?fileUid=64c8a8ecd911630acf1dc26e8319f2dd&amp;token=49f92acd696260abba1bc4062d157199&amp;sign=f1f67cb50ff890e9b537f0afcaaa8ec4">https://127.0.0.1:10985/api/bigfile/file/read?fileUid=64c8a8ecd911630acf1dc26e8319f2dd&amp;token=49f92acd696260abba1bc4062d157199&amp;sign=f1f67cb50ff890e9b537f0afcaaa8ec4</a></p>
+</blockquote>
+
+<h3 id="directory-list">Directory List</h3>
+
+<p>As the name suggests, is used to view the contents of the directory. Which will list all subdirectories and files in the directory.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the token that can access to this file</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">sign</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">the signature of parameters. it&rsquo;s required if the token has password</td>
+</tr>
+
+<tr>
+<td align="center">subDir</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">default: <code>/</code>, list the path of the token</td>
+</tr>
+
+<tr>
+<td align="center">sort</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">default: <code>-type</code>, eg: <code>-type, name, -name, time and -time</code></td>
+</tr>
+
+<tr>
+<td align="center">limit</td>
+<td align="center">int</td>
+<td align="center">no</td>
+<td align="center">default: <code>10</code>, min: <code>10</code>, max: <code>20</code></td>
+</tr>
+
+<tr>
+<td align="center">offset</td>
+<td align="center">int</td>
+<td align="center">no</td>
+<td align="center">default: <code>0</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>The directory may be made up of a lot of content, so we need to get them by pagination.</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	libHttp &quot;net/http&quot;
+	&quot;strings&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	var (
+		err         error
+		request     *libHttp.Request
+		token       = &quot;49f92acd696260abba1bc4062d157199&quot;
+		tokenSecret = &quot;9bcac735fd7f25947a3909998420affa&quot;
+	)
+	params := map[string]interface{}{
+		&quot;token&quot;: token,
+		&quot;nonce&quot;: models.RandomWithMd5(255),
+	}
+	body := http.GetParamsSignBody(params, tokenSecret)
+
+	api := &quot;https://127.0.0.1:10985/api/bigfile/directory/list?&quot; + body
+	if request, err = libHttp.NewRequest(libHttp.MethodGet, api, strings.NewReader(&quot;&quot;)); err != nil {
+		fmt.Println(err)
+		return
+	}
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>We will get such a response:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10028,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;items&quot;:[
+            {
+                &quot;fileUid&quot;:&quot;034ef654f7e787240cac901c197f09cc&quot;,
+                &quot;hidden&quot;:0,
+                &quot;isDir&quot;:1,
+                &quot;path&quot;:&quot;/images/png/profile&quot;,
+                &quot;size&quot;:4698744
+            },
+            {
+                &quot;fileUid&quot;:&quot;03ccc6c26ec7c3a0fe2be90c3f3882d0&quot;,
+                &quot;hidden&quot;:0,
+                &quot;isDir&quot;:1,
+                &quot;path&quot;:&quot;/images/png/profiles&quot;,
+                &quot;size&quot;:0
+            }
+        ],
+        &quot;pages&quot;:1,
+        &quot;total&quot;:2
+    }
+}
+</code></pre>
+
+<p>But did not see the file we just created, because it&rsquo;s not in the <code>/images/png</code> directory. If you want to list it, you need to set the param <code>subDir=/profile</code>. If you try, you will get the following results:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10029,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;items&quot;:[
+            {
+                &quot;ext&quot;:&quot;jpeg&quot;,
+                &quot;fileUid&quot;:&quot;64c8a8ecd911630acf1dc26e8319f2dd&quot;,
+                &quot;hash&quot;:&quot;9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593&quot;,
+                &quot;hidden&quot;:0,
+                &quot;isDir&quot;:0,
+                &quot;path&quot;:&quot;/images/png/profile/profile.jpeg&quot;,
+                &quot;size&quot;:4698744
+            }
+        ],
+        &quot;pages&quot;:1,
+        &quot;total&quot;:1
+    }
+}
+</code></pre>
+
+<h3 id="file-delete">File Delete</h3>
+
+<p><em>File Delete</em> will delete a directory or file. When you delete the directory, you need to be very careful, you may delete all the files in the directory. Deleted files and directories are actually recoverable, but at the moment, we have not developed the trash can function.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">name</th>
+<th align="center">type</th>
+<th align="center">required</th>
+<th align="center">description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">token</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the token that can access to this file</td>
+</tr>
+
+<tr>
+<td align="center">nonce</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">a random string, length: <code>32-48</code></td>
+</tr>
+
+<tr>
+<td align="center">fileUid</td>
+<td align="center">string</td>
+<td align="center">yes</td>
+<td align="center">the file uid</td>
+</tr>
+
+<tr>
+<td align="center">force</td>
+<td align="center">string</td>
+<td align="center">no</td>
+<td align="center">default: <code>false</code>, Force deletion of non-empty subdirectories</td>
+</tr>
+</tbody>
+</table>
+
+<p>Let&rsquo;s delete the image we just created:</p>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	libHttp &quot;net/http&quot;
+	&quot;strings&quot;
+
+	&quot;github.com/bigfile/bigfile/databases/models&quot;
+	&quot;github.com/bigfile/bigfile/http&quot;
+)
+
+func main() {
+	var (
+		err         error
+		request     *libHttp.Request
+		token       = &quot;49f92acd696260abba1bc4062d157199&quot;
+		tokenSecret = &quot;9bcac735fd7f25947a3909998420affa&quot;
+	)
+	params := map[string]interface{}{
+		&quot;token&quot;:   token,
+		&quot;nonce&quot;:   models.RandomWithMd5(255),
+		&quot;fileUid&quot;: &quot;64c8a8ecd911630acf1dc26e8319f2dd&quot;,
+	}
+	body := http.GetParamsSignBody(params, tokenSecret)
+
+	api := &quot;https://127.0.0.1:10985/api/bigfile/file/delete?&quot; + body
+	if request, err = libHttp.NewRequest(libHttp.MethodDelete, api, strings.NewReader(&quot;&quot;)); err != nil {
+		fmt.Println(err)
+		return
+	}
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+</code></pre>
+
+<p>Here we will get:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10030,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;deletedAt&quot;:1567992964,
+        &quot;ext&quot;:&quot;jpeg&quot;,
+        &quot;fileUid&quot;:&quot;64c8a8ecd911630acf1dc26e8319f2dd&quot;,
+        &quot;hash&quot;:&quot;9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593&quot;,
+        &quot;hidden&quot;:0,
+        &quot;isDir&quot;:0,
+        &quot;path&quot;:&quot;/images/png/profile/profile.jpeg&quot;,
+        &quot;size&quot;:4698744
+    }
+}
+</code></pre>
+
+<p>The field <code>deletedAt</code> exists and not null, indicates the has already been deleted. You can call the <code>/directory/list</code> to validate it. No accident, this will get:</p>
+
+<pre><code class="language-json">{
+    &quot;requestId&quot;:10031,
+    &quot;success&quot;:true,
+    &quot;errors&quot;:null,
+    &quot;data&quot;:{
+        &quot;items&quot;:[
+
+        ],
+        &quot;pages&quot;:0,
+        &quot;total&quot;:0
+    }
+}
+</code></pre>
 
 </div>
 
