@@ -31,4 +31,14 @@ After successful conenction, you will see this:
 
 ![ftp-connect-succesfully](/ftp-connect-succesfully.png)
 
-The rest is left to you to explore.
+You can also login by token:
+
+![ftp-token-connect](/ftp-token-connect.png)
+
+If you meet this, just click `OK`:
+
+![ftp-confirm-cert](/ftp-confirm-cert.png)
+
+After successful login, you will go directly to the root of the token:
+
+![ftp-token-login](/ftp-token-login.png)

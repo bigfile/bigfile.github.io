@@ -1,13 +1,17 @@
 [0-about]
-  Name = "About"
+  Name = "ABOUT"
   URL = "about"
 
+[01-about]
+  Name = "QUICK START"
+  URL = "quick-start"
+
 [1-app]
-  Name = "App"
+  Name = "APP"
   URL = "app"
 
 [2-token]
-  Name = "Token"
+  Name = "TOKEN"
   URL = "token"
 
 [3-http]

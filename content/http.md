@@ -10,6 +10,7 @@ The http protocol is the first protocol we implemented. In this way, most langua
 2. parameter signature verification (default: enable)
 3. rate limit by ip (default: disable)
 4. prevent replay attacks (default: enable)
+5. support cors (default: disable)
 
 Next, we will make an example of the use of each API.
 
@@ -71,7 +72,7 @@ Creating a Token is the beginning of all subsequent operations. Before we start,
 |path|string|no|default: `/`, the scope of token|
 |ip|string|no|limit the ip that uses this token, multiple ips separated by commas|
 |expiredAt|timestamp|no|default permanent|
-|secret|string|no|token secret, length: `32`|
+|secret|string|no|token secret, length: `12-32`|
 |availableTimes|int|no|default permanent|
 |readOnly|bool|no|whether this token is only be used to download file|
 
@@ -156,7 +157,7 @@ When a token is created, we can update it as needed. Let's take a look at the pa
 |path|string|no|default: `/`, the scope of token|
 |ip|string|no|limit the ip that uses this token, multiple ips separated by commas|
 |expiredAt|timestamp|no|default permanent|
-|secret|string|no|token secret, length: `32`|
+|secret|string|no|token secret, length: `12-32`|
 |availableTimes|int|no|default permanent|
 |readOnly|bool|no|whether this token is only be used to download file|
 
