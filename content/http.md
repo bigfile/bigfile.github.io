@@ -439,7 +439,85 @@ In this upload, we will get 5 responses，let's see the last response：
 }
 ```
 
-From the response we can see that the file is stored in path `/images/png/profile/WechatIMG455.jpeg`. And the hash of the whole file is `9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593`. This can be used by us to verify the integrity of the file. `isDir=0` indicates we create a file, not directory. When you don't set the `file` field, you will create a directory.
+From the response we can see that the file is stored in path `/images/png/profile/WechatIMG455.jpeg`. And the hash of the whole file is `9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593`. This can be used by us to verify the integrity of the file. `isDir=0` indicates we create a file, not directory. When you don't set the `file` field, you will create a directory. Let's see a example:
+
+```go
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"io/ioutil"
+	"mime/multipart"
+	libHttp "net/http"
+
+	"github.com/bigfile/bigfile/databases/models"
+	"github.com/bigfile/bigfile/http"
+)
+
+func main() {
+	var (
+		err            error
+		body           = new(bytes.Buffer)
+		request        *libHttp.Request
+		token          = "49f92acd696260abba1bc4062d157199"
+		tokenSecret    = "9bcac735fd7f25947a3909998420affa"
+		formBodyWriter = multipart.NewWriter(body)
+	)
+	params := map[string]interface{}{
+		"token": token,
+		"path":  "/profiles",
+		"nonce": models.RandomWithMd5(255),
+	}
+	params["sign"] = http.GetParamsSignature(params, tokenSecret)
+	for k, v := range params {
+		if err = formBodyWriter.WriteField(k, v.(string)); err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
+	if err = formBodyWriter.Close(); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	api := "https://127.0.0.1:10985/api/bigfile/file/create"
+	if request, err = libHttp.NewRequest(libHttp.MethodPost, api, body); err != nil {
+		fmt.Println(err)
+		return
+	}
+	request.Header.Set("Content-Type", formBodyWriter.FormDataContentType())
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+```
+
+This will get a different response than uploading the file.
+
+```json
+{
+    "requestId":10025,
+    "success":true,
+    "errors":null,
+    "data":{
+        "fileUid":"03ccc6c26ec7c3a0fe2be90c3f3882d0",
+        "hidden":0,
+        "isDir":1,
+        "path":"/images/png/profiles",
+        "size":0
+    }
+}
+```
 
 
 ### File Update
@@ -519,3 +597,236 @@ We will get a response like this:
 ```
 
 As you can see from the above results, the file is moved to another path, but the file uid never changes.
+
+
+### File Read
+
+*File Read* is used to download a file, the file is automatically downloaded when you open the download URL in your browser. If you want to preview the file in your browser, you can set `openInBrowser` to `true`.
+
+*File Read* also supports [HTTP range requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests), but only for *Single part ranges*.
+
+|name|type|required|description|
+|:---:|:--:|:--:|:--:|
+|token|string|yes|the token that can access to this file|
+|fileUid|string|yes|file uid|
+|nonce|string|no|a random string, length: `32-48`|
+|sign|string|no|the signature of parameters. it's required if the token has password|
+|openInBrowser|bool|no|preview the file in your browser|
+
+Since my token has a password, I need to sign it to generate a download link.
+
+>   https://127.0.0.1:10985/api/bigfile/file/read?fileUid=64c8a8ecd911630acf1dc26e8319f2dd&token=49f92acd696260abba1bc4062d157199&sign=f1f67cb50ff890e9b537f0afcaaa8ec4
+
+### Directory List
+
+As the name suggests, is used to view the contents of the directory. Which will list all subdirectories and files in the directory. 
+
+|name|type|required|description|
+|:---:|:--:|:--:|:--:|
+|token|string|yes|the token that can access to this file|
+|nonce|string|yes|a random string, length: `32-48`|
+|sign|string|no|the signature of parameters. it's required if the token has password|
+|subDir|string|no|default: `/`, list the path of the token|
+|sort|string|no|default: `-type`, eg: `-type, name, -name, time and -time`|
+|limit|int|no|default: `10`, min: `10`, max: `20`|
+|offset|int|no|default: `0`|
+
+The directory may be made up of a lot of content, so we need to get them by pagination.
+
+```go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	libHttp "net/http"
+	"strings"
+
+	"github.com/bigfile/bigfile/databases/models"
+	"github.com/bigfile/bigfile/http"
+)
+
+func main() {
+	var (
+		err         error
+		request     *libHttp.Request
+		token       = "49f92acd696260abba1bc4062d157199"
+		tokenSecret = "9bcac735fd7f25947a3909998420affa"
+	)
+	params := map[string]interface{}{
+		"token": token,
+		"nonce": models.RandomWithMd5(255),
+	}
+	body := http.GetParamsSignBody(params, tokenSecret)
+
+	api := "https://127.0.0.1:10985/api/bigfile/directory/list?" + body
+	if request, err = libHttp.NewRequest(libHttp.MethodGet, api, strings.NewReader("")); err != nil {
+		fmt.Println(err)
+		return
+	}
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+```
+
+We will get such a response:
+
+```json
+{
+    "requestId":10028,
+    "success":true,
+    "errors":null,
+    "data":{
+        "items":[
+            {
+                "fileUid":"034ef654f7e787240cac901c197f09cc",
+                "hidden":0,
+                "isDir":1,
+                "path":"/images/png/profile",
+                "size":4698744
+            },
+            {
+                "fileUid":"03ccc6c26ec7c3a0fe2be90c3f3882d0",
+                "hidden":0,
+                "isDir":1,
+                "path":"/images/png/profiles",
+                "size":0
+            }
+        ],
+        "pages":1,
+        "total":2
+    }
+}
+```
+
+But did not see the file we just created, because it's not in the `/images/png` directory. If you want to list it, you need to set the param `subDir=/profile`. If you try, you will get the following results:
+
+```json
+{
+    "requestId":10029,
+    "success":true,
+    "errors":null,
+    "data":{
+        "items":[
+            {
+                "ext":"jpeg",
+                "fileUid":"64c8a8ecd911630acf1dc26e8319f2dd",
+                "hash":"9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593",
+                "hidden":0,
+                "isDir":0,
+                "path":"/images/png/profile/profile.jpeg",
+                "size":4698744
+            }
+        ],
+        "pages":1,
+        "total":1
+    }
+}
+```
+
+### File Delete
+
+*File Delete* will delete a directory or file. When you delete the directory, you need to be very careful, you may delete all the files in the directory. Deleted files and directories are actually recoverable, but at the moment, we have not developed the trash can function.
+
+|name|type|required|description|
+|:---:|:--:|:--:|:--:|
+|token|string|yes|the token that can access to this file|
+|nonce|string|yes|a random string, length: `32-48`|
+|fileUid|string|yes|the file uid|
+|force|string|no|default: `false`, Force deletion of non-empty subdirectories|
+
+Let's delete the image we just created:
+
+```go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	libHttp "net/http"
+	"strings"
+
+	"github.com/bigfile/bigfile/databases/models"
+	"github.com/bigfile/bigfile/http"
+)
+
+func main() {
+	var (
+		err         error
+		request     *libHttp.Request
+		token       = "49f92acd696260abba1bc4062d157199"
+		tokenSecret = "9bcac735fd7f25947a3909998420affa"
+	)
+	params := map[string]interface{}{
+		"token":   token,
+		"nonce":   models.RandomWithMd5(255),
+		"fileUid": "64c8a8ecd911630acf1dc26e8319f2dd",
+	}
+	body := http.GetParamsSignBody(params, tokenSecret)
+
+	api := "https://127.0.0.1:10985/api/bigfile/file/delete?" + body
+	if request, err = libHttp.NewRequest(libHttp.MethodDelete, api, strings.NewReader("")); err != nil {
+		fmt.Println(err)
+		return
+	}
+	resp, err := libHttp.DefaultClient.Do(request)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if bodyBytes, err := ioutil.ReadAll(resp.Body); err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(string(bodyBytes))
+	}
+}
+```
+
+Here we will get:
+
+```json
+{
+    "requestId":10030,
+    "success":true,
+    "errors":null,
+    "data":{
+        "deletedAt":1567992964,
+        "ext":"jpeg",
+        "fileUid":"64c8a8ecd911630acf1dc26e8319f2dd",
+        "hash":"9536467bde347627e27634a77963105a045f624e290b0f2bbc342834abdd4593",
+        "hidden":0,
+        "isDir":0,
+        "path":"/images/png/profile/profile.jpeg",
+        "size":4698744
+    }
+}
+```
+
+The field `deletedAt` exists and not null, indicates the has already been deleted. You can call the `/directory/list` to validate it. No accident, this will get:
+
+```json
+{
+    "requestId":10031,
+    "success":true,
+    "errors":null,
+    "data":{
+        "items":[
+
+        ],
+        "pages":0,
+        "total":0
+    }
+}
+```
