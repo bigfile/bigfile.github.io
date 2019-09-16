@@ -20,3 +20,6 @@ In fact, we built a file organization system based on the database. Here you can
 Since the rpc and http protocols are supported, those languages supported by [grpc](https://grpc.io/) and other languages can be quickly accessed. If you are not a programmer, you can use the ftp client to manage your files, the only thing you need to do is start Bigfile.
 
 It's not `big`， It has `逼格`.  
+
+
+**Bigfile** is also a system that supports multiple applications, we call it **APP**. Each APP has its own space, and the APPs are isolated from each other without interfering with each other. For security reasons, we don't want to expose the application key to anyone who uses an application, so each **APP** should create a **Token** with a certain permission to manipulate the file. You can restrict the **Token** to only access a directory, set the expiration time, the number of times available, read-only access, and restrict the use of IP. We also provide **HTTPS**, **FTPS** and **RPC** services with double-ended authentication. It is easy to operate and easy to use. The only thing you need to do is to generate a certificate using the command line tools we provide, and specify the certificate when starting the service.

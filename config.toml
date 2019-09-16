@@ -51,7 +51,7 @@ disqusShortname = "your_disqus_shortname"
 
     # Text for the top menu link, which goes the root URL for the site.
     # Default (if omitted) is "Home".
-    home = "Home"
+    home = "home"
 
     # Select a syntax highight.
     # Check the static/css/highlight directory for options.

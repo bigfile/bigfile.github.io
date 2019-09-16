@@ -1,27 +1,27 @@
 [0-about]
-  Name = "ABOUT"
+  Name = "about"
   URL = "about"
 
-[01-about]
-  Name = "QUICK START"
-  URL = "quick-start"
+[01-start]
+  Name = "start"
+  URL = "start"
 
 [1-app]
-  Name = "APP"
+  Name = "app"
   URL = "app"
 
 [2-token]
-  Name = "TOKEN"
+  Name = "token"
   URL = "token"
 
 [3-http]
-  Name = "HTTP"
+  Name = "http"
   URL = "http"
 
 [4-http]
-  Name = "RPC"
+  Name = "rpc"
   URL = "rpc"
 
 [5-ftp]
-  Name = "FTP"
+  Name = "ftp"
   URL = "ftp"
