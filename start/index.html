@@ -19,7 +19,7 @@
 
 <meta property="og:title" content="Quick Start  &middot; Bigfile ">
 <meta property="og:site_name" content="Bigfile"/>
-<meta property="og:url" content="https://bigfile.site/quick-start/" />
+<meta property="og:url" content="https://bigfile.site/start/" />
 <meta property="og:locale" content="en-EN">
 
 
@@ -43,13 +43,13 @@
     },
     "datePublished": "2019-09-09",
     "description": "",
-    "wordCount": 303
+    "wordCount": 574
   }
 </script>
 
 
 
-<link rel="canonical" href="https://bigfile.site/quick-start/" />
+<link rel="canonical" href="https://bigfile.site/start/" />
 
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://bigfile.site/touch-icon-144-precomposed.png">
 <link href="https://bigfile.site/favicon.png" rel="icon">
@@ -106,23 +106,23 @@
   <nav class="container nav primary no-print">
   
 
-<a class="homelink" href="https://bigfile.site">Home</a>
+<a class="homelink" href="https://bigfile.site">home</a>
 
 
   
-<a href="https://bigfile.site/about">ABOUT</a>
+<a href="https://bigfile.site/about">about</a>
 
-<a href="https://bigfile.site/quick-start">QUICK START</a>
+<a href="https://bigfile.site/start">start</a>
 
-<a href="https://bigfile.site/app">APP</a>
+<a href="https://bigfile.site/app">app</a>
 
-<a href="https://bigfile.site/token">TOKEN</a>
+<a href="https://bigfile.site/token">token</a>
 
-<a href="https://bigfile.site/http">HTTP</a>
+<a href="https://bigfile.site/http">http</a>
 
-<a href="https://bigfile.site/rpc">RPC</a>
+<a href="https://bigfile.site/rpc">rpc</a>
 
-<a href="https://bigfile.site/ftp">FTP</a>
+<a href="https://bigfile.site/ftp">ftp</a>
 
 
 </nav>
@@ -177,16 +177,69 @@
   <div class="container content">
   
 
-<p>Bigfile sticks to ease of use, all you have to do is install MySQL and create a database. If you are docker fan, then everything is even simpler. You can start a mysql like this:</p>
+<p>In this section, we will describe how to install, config and start <code>Bigfile</code>.</p>
 
-<pre><code>docker run -it --rm -p 33306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bigfile  mysql:5.7.21 --character-set-server=utf8 --collation-server=utf8_general_ci
+<h3 id="requirements">Requirements</h3>
+
+<p>The only thing <strong>Bigfile</strong> needs is <strong>Mysql</strong>, you should start mysql before starting <strong>Bigfile</strong>. You can follow the <a href="https://dev.mysql.com/downloads/mysql/">official guide</a> to install it,</p>
+
+<h3 id="install">Install</h3>
+
+<p>There are many ways to install <code>Bigfile</code>, just as follows.</p>
+
+<h4 id="from-binary">from Binary</h4>
+
+<p>You can download the latest version from the <a href="https://github.com/bigfile/bigfile/releases">release page</a>.</p>
+
+<h4 id="from-homebrew">from HomeBrew</h4>
+
+<p>If you work on MacOS, you can install <code>Bigfile</code> by <a href="https://brew.sh/">brew</a>.</p>
+
+<pre><code>brew install bigfile/tap/bigfile
 </code></pre>
 
-<p>Here you need to set the character set to <code>utf8</code>. Next, you need to download the binary executable from <a href="https://github.com/bigfile/bigfile/releases">release page</a>. Then just start the server you want to run. All data tables will be synchronized when the server is started.</p>
+<h4 id="from-snapcraft">from Snapcraft</h4>
+
+<p>Snaps are containerised software packages that are simple to create and install. They auto-update and are safe to run. More detailed information can be found in <a href="https://snapcraft.io/">Official Documentation</a>.</p>
+
+<pre><code>sudo snap install --classic bigfile
+</code></pre>
+
+<h4 id="from-deb-rpm">from deb/rpm</h4>
+
+<p>You can download the <code>.dep</code> or <code>rpm</code> file and install it by command <code>dpkg -i</code> or <code>rpm -i</code>.</p>
+
+<h4 id="from-scoop">from scoop</h4>
+
+<p>If you work on Windows platform, there is an alternative solution for installing <code>Bigfile</code> by <a href="https://scoop.sh/">scoop</a></p>
+
+<pre><code>scoop bucket add bigfile https://github.com/bigfile/bigfile-bucket.git
+
+scoop install bigfile
+</code></pre>
+
+<h4 id="from-source-code">from Source Code</h4>
+
+<p>Start <code>Bigfile</code> by <code>go run</code> command</p>
+
+<pre><code>go get -u -v github.com/bigfile/bigfile/artisan
+
+go run artisan/bigfile.go --version
+</code></pre>
+
+<p>Install <code>Bigfile</code> by <code>go install</code> command. This will generate a executable binary file that&rsquo;s named as <code>artisan</code> in <code>${GOPATH}/bin</code>.</p>
+
+<pre><code>go install -a -v github.com/bigfile/bigfile/artisan
+</code></pre>
+
+<p>Build <code>Bigfile</code> by <code>go build</code> command</p>
+
+<pre><code>go build artisan/bigfile.go
+</code></pre>
 
 <h3 id="configuration">Configuration</h3>
 
-<p>Bigfile has a default configuration, Here it is:</p>
+<p>Bigfile has a set of default configuration, Here it is:</p>
 
 <pre><code class="language-yaml">database:
   driver: mysql
@@ -232,34 +285,52 @@ chunk:
 
 <p>Bigfiel will find configuration file in <code>current directory</code>, <code>user home</code> and <code>/etc/bigfile</code>. You need to place a file named <code>.bigfile.yml</code> in one of the directories.</p>
 
-<p>If you just want to start Bigfile, then the only thing you need to set is to set up MySQL. We provide an entry on the command line and set up the database without a configuration file. like this:</p>
+<p>If you just want to set database information, you can config it by command line.</p>
 
-<pre><code>    bigfile --db-host 127.0.0.1 --db-user root --db-pass root  --db-name bigfile  --db-port 33306 http:start 
+<p><img src="/start/config-in-command.png" alt="config-in-command-line" /></p>
+
+<p>like this:</p>
+
+<pre><code>bigfile --db-host 192.168.0.104 --db-name bigfile_tesg ftp:start --tls-enable --cert-file server.pem --key-file server.key
 </code></pre>
 
-<h3 id="all-in-docker">All in Docker</h3>
+<h3 id="run">Run</h3>
 
-<ol>
-<li><p>pull image:</p>
+<p>After installation and configuration, it&rsquo;s time to run <code>Bigfile</code>. <code>Bigfile</code> has three services: <code>HTTP Server</code>, <code>RPC Server</code> and <code>FTP Server</code>, you need to start them separately.</p>
 
-<pre><code>docker pull bigfile/bigfile
-</code></pre></li>
+<p>Before running <code>Bigfile</code>, we recommend to generate a series of certificates to use tls/ssl. We provide a simple command for this:</p>
 
-<li><p>create a network</p>
+<pre><code>bigfile rpc:make-cert
+</code></pre>
 
-<pre><code>docker network create bigfile
-</code></pre></li>
+<p><img src="/start/generate-certificates.png" alt="generate-certificates" /></p>
 
-<li><p>start mysql</p>
+<p>After this command, six certificate files will be generated in the corresponding directory on the host. The certificate authority is prefixed with <code>ca</code>. Only the certificate authority has the qualification to issue the certificate. The certificate generated by us is a self-signed certificate. The self-signed certificate is generally not trusted by the system, but you can add it to the system for trust. The server certificate is prefixed with <code>server</code>, and the server certificate can be added with a trusted IP, specified by the parameter <code>--server-cert-ips</code>. Client-prefixed for the client, this is mainly used in the RPC service to achieve double-ended authentication. The <code>.pem</code> suffix indicates the PEM-encoded certificate file, and the <code>.key</code> suffix indicates the certificate key.</p>
 
-<pre><code> docker run -it --rm --network bigfile --name bigfile-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bigfile mysql:5.7.21 --character-set-server=utf8 --collation-server=utf8_general_ci
-</code></pre></li>
+<h4 id="start-http-server">Start HTTP Server</h4>
 
-<li><p>start http server</p>
+<pre><code>bigfile http:start --cert-file server.pem --cert-key server.key
+</code></pre>
 
-<pre><code>docker run --rm --network bigfile -p 10985:10985  bigfile/bigfile --db-host bigfile-mysql http:start
-</code></pre></li>
-</ol>
+<p><img src="/start/start-http-server.png" alt="start-http-server" /></p>
+
+<h4 id="start-rpc-server">Start RPC Server</h4>
+
+<pre><code>bigfile rpc:start --ca-cert ca.pem --server-cert server.pem --server-key server.key
+</code></pre>
+
+<p><img src="/start/start-rpc-server.png" alt="start-rpc-server" /></p>
+
+<h4 id="start-ftp-server">Start FTP Server</h4>
+
+<pre><code>bigfile ftp:start --tls-enable --cert-file server.pem --key-file server.key
+</code></pre>
+
+<p><img src="/start/start-ftp-server.png" alt="start-ftp-server" /></p>
+
+<h3 id="docker">Docker</h3>
+
+<p>If you are a Docker enthusiast, we have built an official image, you can find a more detailed manual <a href="https://hub.docker.com/r/bigfile/bigfile">https://hub.docker.com/r/bigfile/bigfile</a>.</p>
 
 </div>
 

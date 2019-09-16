@@ -43,7 +43,7 @@
     },
     "datePublished": "2019-09-06",
     "description": "",
-    "wordCount": 150
+    "wordCount": 288
   }
 </script>
 
@@ -106,23 +106,23 @@
   <nav class="container nav primary no-print">
   
 
-<a class="homelink" href="https://bigfile.site">Home</a>
+<a class="homelink" href="https://bigfile.site">home</a>
 
 
   
-<a href="https://bigfile.site/about">ABOUT</a>
+<a href="https://bigfile.site/about">about</a>
 
-<a href="https://bigfile.site/quick-start">QUICK START</a>
+<a href="https://bigfile.site/start">start</a>
 
-<a href="https://bigfile.site/app">APP</a>
+<a href="https://bigfile.site/app">app</a>
 
-<a href="https://bigfile.site/token">TOKEN</a>
+<a href="https://bigfile.site/token">token</a>
 
-<a href="https://bigfile.site/http">HTTP</a>
+<a href="https://bigfile.site/http">http</a>
 
-<a href="https://bigfile.site/rpc">RPC</a>
+<a href="https://bigfile.site/rpc">rpc</a>
 
-<a href="https://bigfile.site/ftp">FTP</a>
+<a href="https://bigfile.site/ftp">ftp</a>
 
 
 </nav>
@@ -191,6 +191,8 @@
 <p>Since the rpc and http protocols are supported, those languages supported by <a href="https://grpc.io/">grpc</a> and other languages can be quickly accessed. If you are not a programmer, you can use the ftp client to manage your files, the only thing you need to do is start Bigfile.</p>
 
 <p>It&rsquo;s not <code>big</code>， It has <code>逼格</code>.</p>
+
+<p><strong>Bigfile</strong> is also a system that supports multiple applications, we call it <strong>APP</strong>. Each APP has its own space, and the APPs are isolated from each other without interfering with each other. For security reasons, we don&rsquo;t want to expose the application key to anyone who uses an application, so each <strong>APP</strong> should create a <strong>Token</strong> with a certain permission to manipulate the file. You can restrict the <strong>Token</strong> to only access a directory, set the expiration time, the number of times available, read-only access, and restrict the use of IP. We also provide <strong>HTTPS</strong>, <strong>FTPS</strong> and <strong>RPC</strong> services with double-ended authentication. It is easy to operate and easy to use. The only thing you need to do is to generate a certificate using the command line tools we provide, and specify the certificate when starting the service.</p>
 
 </div>
 

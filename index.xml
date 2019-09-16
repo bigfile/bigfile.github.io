@@ -16,12 +16,15 @@
     
     <item>
       <title>Quick Start</title>
-      <link>https://bigfile.site/quick-start/</link>
+      <link>https://bigfile.site/start/</link>
       <pubDate>Mon, 09 Sep 2019 15:00:37 +0800</pubDate>
       <author>bigfilefu@gmail.com (Bigfile)</author>
-      <guid>https://bigfile.site/quick-start/</guid>
-      <description>Bigfile sticks to ease of use, all you have to do is install MySQL and create a database. If you are docker fan, then everything is even simpler. You can start a mysql like this:
-docker run -it --rm -p 33306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=bigfile mysql:5.7.21 --character-set-server=utf8 --collation-server=utf8_general_ci  Here you need to set the character set to utf8. Next, you need to download the binary executable from release page.</description>
+      <guid>https://bigfile.site/start/</guid>
+      <description>In this section, we will describe how to install, config and start Bigfile.
+Requirements The only thing Bigfile needs is Mysql, you should start mysql before starting Bigfile. You can follow the official guide to install it,
+Install There are many ways to install Bigfile, just as follows.
+from Binary You can download the latest version from the release page.
+from HomeBrew If you work on MacOS, you can install Bigfile by brew.</description>
     </item>
     
     <item>
